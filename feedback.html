@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback | Student Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --sky: #00b4d8;
+      --accent: #f4a261;
+      --light: #e8f4f8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: #fff; min-height: 100vh; }
+    .navbar {
+      background: rgba(13,27,42,0.97) !important;
+      border-bottom: 2px solid var(--sky);
+      padding: 1rem 2rem;
+    }
+    .navbar-brand { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--sky) !important; }
+    .nav-link { font-family: 'Syne', sans-serif; color: var(--light) !important; font-weight: 600; margin: 0 5px; }
+    .nav-link:hover { color: var(--accent) !important; }
+    .nav-link.active-link { color: var(--sky) !important; }
+
+    .page-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      min-height: calc(100vh - 72px);
+    }
+    .card-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,180,216,0.2);
+      border-radius: 20px;
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 540px;
+      animation: fadeUp 0.6s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .badge-tag {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sky);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .card-box h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .card-box h2 span { color: var(--sky); }
+    .card-box .sub { color: rgba(255,255,255,0.5); font-size: 0.92rem; margin-bottom: 32px; }
+
+    label.field-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-control, .form-select {
+      background: rgba(255,255,255,0.06) !important;
+      border: 1px solid rgba(0,180,216,0.25) !important;
+      color: #fff !important;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--sky) !important;
+      box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important;
+      outline: none;
+    }
+    textarea.form-control { resize: vertical; min-height: 110px; }
+    .form-select option { background: #0d1b2a; color: #fff; }
+    .form-group { margin-bottom: 22px; }
+    .error-msg { color: #ff6b6b; font-size: 0.8rem; margin-top: 5px; display: none; }
+    .error-msg.show { display: block; }
+    .input-error { border-color: #ff6b6b !important; }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--sky);
+      color: var(--navy);
+      border: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 8px;
+    }
+    .btn-submit:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(244,162,97,0.3);
+    }
+
+    /* Success State */
+    #successMsg {
+      display: none;
+      text-align: center;
+      animation: fadeUp 0.5s ease both;
+    }
+    #successMsg .success-icon { font-size: 4rem; margin-bottom: 20px; }
+    #successMsg h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--sky);
+    }
+    #successMsg p { color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 28px; }
+    .btn-back {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--sky);
+      color: var(--navy);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 50px;
+      transition: all 0.25s;
+    }
+    .btn-back:hover { background: var(--accent); color: var(--navy); transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">🎓 Student Portal</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="registration.html">Registration</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
+          <li class="nav-item"><a class="nav-link active-link" href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="card-box">
+
+      <!-- Form -->
+      <div id="formSection">
+        <span class="badge-tag">Student Voice</span>
+        <h2>Share Your <span>Feedback</span></h2>
+        <p class="sub">We value your opinion. Help us improve the Student Portal experience.</p>
+
+        <form id="feedbackForm" novalidate>
+          <div class="form-group">
+            <label class="field-label">Your Name</label>
+            <input type="text" id="fbName" class="form-control" placeholder="e.g. Sara Khan"/>
+            <span class="error-msg" id="fbNameErr">Name is required.</span>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Comments</label>
+            <textarea id="fbComments" class="form-control" placeholder="Share your experience, suggestions, or any issues..."></textarea>
+            <span class="error-msg" id="fbCommentsErr">Please enter your comments.</span>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Rating</label>
+            <select id="fbRating" class="form-select">
+              <option value="">-- Select Rating --</option>
+              <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+              <option value="4">⭐⭐⭐⭐ Good</option>
+              <option value="3">⭐⭐⭐ Average</option>
+              <option value="2">⭐⭐ Poor</option>
+              <option value="1">⭐ Very Poor</option>
+            </select>
+            <span class="error-msg" id="fbRatingErr">Please select a rating.</span>
+          </div>
+          <button type="submit" class="btn-submit">Submit Feedback 🚀</button>
+        </form>
+      </div>
+
+      <!-- Success Message -->
+      <div id="successMsg">
+        <div class="success-icon">🎉</div>
+        <h3>Thank You!</h3>
+        <p>Your feedback has been submitted successfully. We appreciate you taking the time to help us improve.</p>
+        <a href="dashboard.html" class="btn-back">← Back to Dashboard</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function showErr(errId, inputId, msg) {
+      const el = document.getElementById(errId);
+      el.textContent = msg;
+      el.classList.add('show');
+      document.getElementById(inputId).classList.add('input-error');
+    }
+    function clearAll() {
+      ['fbNameErr','fbCommentsErr','fbRatingErr'].forEach(id => {
+        document.getElementById(id).classList.remove('show');
+      });
+      ['fbName','fbComments','fbRating'].forEach(id => {
+        document.getElementById(id).classList.remove('input-error');
+      });
+    }
+
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearAll();
+
+      const name = document.getElementById('fbName').value.trim();
+      const comments = document.getElementById('fbComments').value.trim();
+      const rating = document.getElementById('fbRating').value;
+
+      let valid = true;
+
+      // Presence check validation
+      if (!name) { showErr('fbNameErr','fbName','Name is required.'); valid = false; }
+      if (!comments) { showErr('fbCommentsErr','fbComments','Please enter your comments.'); valid = false; }
+      if (!rating) { showErr('fbRatingErr','fbRating','Please select a rating.'); valid = false; }
+
+      if (!valid) return;
+
+      // Show success message
+      document.getElementById('formSection').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    });
+  </script>
+</body>
+</html>
